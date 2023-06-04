@@ -9,6 +9,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 // we will define `options` up next
+
+
+const smtpHost = process.env.SMTP_HOST!;
+const smtpPort = parseInt(process.env.SMTP_PORT!);
+const smtpUser = process.env.SMTP_USER!;
+const smtpPassword = process.env.SMTP_PASSWORD!;
+const smtpFrom = process.env.SMTP_FROM!;
+
 export default NextAuth({
   providers: [
     GitHub({
@@ -17,18 +25,18 @@ export default NextAuth({
     }),
     Email({
       server: {
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT),
+        host: smtpHost,
+        port:smtpPort,
         secure: false,
         auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
+          user: smtpUser,
+          pass: smtpPassword,
         },
         tls: {
           rejectUnauthorized: false
         }
       },
-      from: process.env.SMTP_FROM
+      from: smtpFrom
     })
   ],
   adapter: PrismaAdapter(prisma),
