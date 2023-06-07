@@ -1,13 +1,10 @@
-import type { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import { NextAuthOptions } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
-  session: {
-    strategy: 'jwt',
-  },
   providers: [
-    CredentialsProvider({
-      name: 'Sign in',
+    Credentials({
+      name: 'Credentials',
       credentials: {
         email: {
           label: 'Email',
@@ -16,7 +13,12 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        if (
+          credentials?.email !== 'admin@example.com' &&
+          credentials?.password !== 'admin'
+        )
+          return;
         const user = { id: '1', name: 'Admin', email: 'admin@admin.com' };
         return user;
       },
