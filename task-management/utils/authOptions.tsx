@@ -13,14 +13,12 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      authorize(credentials, req) {
         if (
-          credentials?.email !== 'admin@example.com' &&
-          credentials?.password !== 'admin'
+          credentials?.email == 'admin@example.com' &&
+          credentials?.password == 'admin'
         )
-          return;
-        const user = { id: '1', name: 'Admin', email: 'admin@admin.com' };
-        return user;
+          return { id: '1', name: 'Admin', email: 'admin@admin.com' };
       },
     }),
   ],

@@ -1,6 +1,12 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import NextAuthSessionProvider from './providers/sessionProvider';
+import {
+  LoginButton,
+  LogoutButton,
+  ProfileButton,
+  RegisterButton,
+} from './components/buttons';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,6 +23,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
+        <div>
+          <LoginButton />
+          <RegisterButton />
+          <LogoutButton />
+          <ProfileButton />
+        </div>
         <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
       </body>
     </html>

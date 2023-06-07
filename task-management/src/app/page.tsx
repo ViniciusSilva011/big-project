@@ -1,12 +1,5 @@
 'use client';
-import {
-  LoginButton,
-  LogoutButton,
-  ProfileButton,
-  RegisterButton,
-} from './components/buttons.component';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../utils/authOptions';
+
 import { useSession } from 'next-auth/react';
 
 export default function Home() {
@@ -14,7 +7,7 @@ export default function Home() {
     required: true,
   });
 
-  if (status === 'loading') return <>teste</>;
+  if (status === 'loading') return <>loading</>;
   return (
     <main
       style={{
@@ -24,12 +17,7 @@ export default function Home() {
         height: '70vh',
       }}
     >
-      <div>
-        <LoginButton />
-        <RegisterButton />
-        <LogoutButton />
-        <ProfileButton />
-      </div>
+      <div>HOME</div>
     </main>
   );
 }
