@@ -1,5 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import Home from "./home";
 
+import './globals.css'
 
 const IndexPage = () => {
     const {
@@ -15,6 +17,10 @@ const IndexPage = () => {
           <div>
             Hello, {session!.user!.email ?? session!.user!.name} <br />
             <button onClick={() => signOut()}>Sign out</button>
+            <br />
+            <br />
+            <br />
+            <Home />
           </div>
         );
       } else {
