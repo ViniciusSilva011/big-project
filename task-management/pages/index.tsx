@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 
 import './globals.css';
+import Header from '@/app/components/Header';
 
 const IndexPage = () => {
   const { status, data: session } = useSession();
@@ -9,11 +10,13 @@ const IndexPage = () => {
     return <div>Loading...</div>;
   }
   if (session) {
+    const userLoggedName = session?.user?.name ?? '';
     return (
-      <div>
-        Hello, {session!.user!.email ?? session!.user!.name} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-        <main className='flex min-h-screen flex-col items-center justify-between p-24'></main>
+      <div className='m-3'>
+        <Header user={userLoggedName} />
+        <main className='flex min-h-screen flex-col items-center justify-between'>
+          {'teste'}
+        </main>
       </div>
     );
   } else {
