@@ -7,10 +7,10 @@ const NavBar = () => {
     { title: 'Home', link: '/' },
     { title: 'Profile', link: '/profile' },
     { title: 'Tasks', link: '/tasks' },
+    { title: 'Teams', link: '/teams' },
   ];
 
   const renderMenu = menus.map((menu) => {
-    console.log(menu);
     return (
       <Link href={menu.link} key={crypto.randomUUID()}>
         <span className='mr-2'>{menu.title}</span>
