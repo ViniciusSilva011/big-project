@@ -1,5 +1,4 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
-import Home from './home';
 
 import './globals.css';
 
@@ -14,11 +13,7 @@ const IndexPage = () => {
       <div>
         Hello, {session!.user!.email ?? session!.user!.name} <br />
         <button onClick={() => signOut()}>Sign out</button>
-        <br />
-        <br />
-        <br />
-        <Home />
-        <span>teste</span>
+        <main className='flex min-h-screen flex-col items-center justify-between p-24'></main>
       </div>
     );
   } else {
