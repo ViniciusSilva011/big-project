@@ -1,5 +1,5 @@
 const BreadCrumb = () => {
-  return (  );
-}
+  return 'Breadcrumb';
+};
 
 export default BreadCrumb;
