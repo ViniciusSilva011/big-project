@@ -20,7 +20,7 @@ const NavBar = ({ user = '' }) => {
     return (
       <Link
         href={menu.link}
-        key={crypto.randomUUID()}
+        key={menu.title}
         className={index === 0 ? activeStyle : nonActiveStyle}
         aria-current='page'
       >
