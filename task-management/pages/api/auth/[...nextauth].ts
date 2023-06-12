@@ -1,16 +1,14 @@
-import { NextApiHandler } from "next";
-import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
-import Email from "next-auth/providers/email";
-import CredentialsProvider from "next-auth/providers/credentials"
+import { NextApiHandler } from 'next';
+import NextAuth from 'next-auth';
+import GitHub from 'next-auth/providers/github';
+import Email from 'next-auth/providers/email';
 
-import {PrismaAdapter} from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 // we will define `options` up next
-
 
 const smtpHost = process.env.SMTP_HOST!;
 const smtpPort = parseInt(process.env.SMTP_PORT!);
@@ -61,18 +59,18 @@ export default NextAuth({
     Email({
       server: {
         host: smtpHost,
-        port:smtpPort,
+        port: smtpPort,
         secure: false,
         auth: {
           user: smtpUser,
           pass: smtpPassword,
         },
         tls: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       },
-      from: smtpFrom
-    })
+      from: smtpFrom,
+    }),
   ],
   callbacks: {
      async jwt({token,account,profile}) {
