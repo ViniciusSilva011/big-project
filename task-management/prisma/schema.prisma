@@ -41,15 +41,57 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  roles         RoleUser[]
 
   @@map("users")
+}
+
+model Role {
+  id          Int              @id @default(autoincrement())
+  name        String
+  permissions PermissionRole[]
+  RoleUser    RoleUser[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id    Int              @id @default(autoincrement())
+  name  String
+  // PermissionRole PermissionRole @relation(fields: [], references: [])
+  roles PermissionRole[]
+
+  @@map("permissions")
+}
+
+model RoleUser {
+  // permission    Permission @relation(fields: [permission_id], references: [id])
+  role_id Int
+  user_id String
+
+  user User @relation(fields: [user_id], references: [id])
+  role Role @relation(fields: [role_id], references: [id])
+
+  @@id([role_id, user_id])
+  @@map("role_user")
+}
+
+model PermissionRole {
+  permission Permission @relation(fields: [permission_id], references: [id])
+  role       Role       @relation(fields: [role_id], references: [id])
+
+  permission_id Int
+  role_id       Int
+
+  @@id([permission_id, role_id])
+  @@map("permission_role")
 }
 
 model VerificationToken {
