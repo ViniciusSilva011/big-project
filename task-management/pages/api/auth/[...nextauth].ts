@@ -2,6 +2,7 @@ import { NextApiHandler } from 'next';
 import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Email from 'next-auth/providers/email';
+import CredentialsProvider from "next-auth/providers/credentials"
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
