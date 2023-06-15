@@ -4,6 +4,23 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const NavBar = ({ user = '' }) => {
+  function insertTasks() {
+    fetch('/api/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    })
+      .then(response => response.json())
+      .then(result => {
+        console.log('Success:', result);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
   const menus = [
     { title: 'Home', link: '/' },
     { title: 'Profile', link: '/profile' },
@@ -265,8 +282,12 @@ const NavBar = ({ user = '' }) => {
                 Sign out
               </a>
             </div>
+
           </div>
         </div>
+        <button onClick={insertTasks}>
+              insert taskskk
+            </button>
       </nav>
     </>
   );
