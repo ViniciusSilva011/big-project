@@ -2,103 +2,130 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
+    @@unique([provider, providerAccountId])
+    @@map("accounts")
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("sessions")
+    @@map("sessions")
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String?    @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  roles         RoleUser[]
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
 
-  @@map("users")
+    roles        RoleUser[]
+    tasks        TaskUser[]
+    createdTasks Task[]
+
+    @@map("users")
 }
 
 model Role {
-  id          Int              @id @default(autoincrement())
-  name        String
-  permissions PermissionRole[]
-  RoleUser    RoleUser[]
+    id   Int    @id @default(autoincrement())
+    name String
 
-  @@map("roles")
+    permissions PermissionRole[]
+    users       RoleUser[]
+
+    @@map("roles")
 }
 
 model Permission {
-  id    Int              @id @default(autoincrement())
-  name  String
-  // PermissionRole PermissionRole @relation(fields: [], references: [])
-  roles PermissionRole[]
+    id    Int              @id @default(autoincrement())
+    name  String
+    roles PermissionRole[]
 
-  @@map("permissions")
+    @@map("permissions")
+}
+
+model Task {
+    id          Int    @id @default(autoincrement())
+    name        String
+    description String
+
+    users   TaskUser[]
+    user_id String
+
+    createdBy User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    @@map("tasks")
 }
 
 model RoleUser {
-  // permission    Permission @relation(fields: [permission_id], references: [id])
-  role_id Int
-  user_id String
+    // permission    Permission @relation(fields: [permission_id], references: [id])
+    role_id Int
+    user_id String
 
-  user User @relation(fields: [user_id], references: [id])
-  role Role @relation(fields: [role_id], references: [id])
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    role Role @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
-  @@id([role_id, user_id])
-  @@map("role_user")
+    @@id([role_id, user_id])
+    @@map("role_user")
 }
 
 model PermissionRole {
-  permission Permission @relation(fields: [permission_id], references: [id])
-  role       Role       @relation(fields: [role_id], references: [id])
+    permission_id Int
+    role_id       Int
 
-  permission_id Int
-  role_id       Int
+    permission Permission @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+    role       Role       @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
-  @@id([permission_id, role_id])
-  @@map("permission_role")
+    @@id([permission_id, role_id])
+    @@map("permission_role")
+}
+
+model TaskUser {
+    task_id Int
+    user_id String
+
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    role Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
+
+    @@id([task_id, user_id])
+    @@map("task_user")
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+    identifier String
+    token      String   @unique
+    expires    DateTime
 
-  @@unique([identifier, token])
-  @@map("verification_tokens")
+    @@unique([identifier, token])
+    @@map("verification_tokens")
 }
