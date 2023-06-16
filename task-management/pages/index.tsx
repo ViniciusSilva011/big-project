@@ -28,9 +28,9 @@ const IndexPage = () => {
           <main className='mt-4'>
             <h1 className='title'>Task title</h1>
             <div className='flex gap-2'>
-              <div className='flex flex-col w-8/12 border border-slate-800 p-2  gap-2'>
+              <div className='flex flex-col w-8/12 border border-slate-800'>
                 {/* NAV LINK dividir */}
-                <nav className='flex gap-2'>
+                <nav className='flex gap-2 p-2'>
                   <button className='px-4 py-2 font-semibold text-sm bg-slate-800 text-gray-100 rounded-lg shadow-sm'>
                     Attach
                   </button>
