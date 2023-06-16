@@ -26,7 +26,7 @@ const IndexPage = () => {
             </div>
           </header>
           <main className='mt-4'>
-            <h1 className='title'>Task title</h1>
+            <h1 className='p-3'>Task title</h1>
             <div className='flex gap-2'>
               <div className='flex flex-col w-8/12 border border-slate-800'>
                 {/* NAV LINK dividir */}
@@ -37,9 +37,9 @@ const IndexPage = () => {
                   <button className='px-4 py-2 font-semibold text-sm bg-slate-800 text-gray-100 rounded-lg shadow-sm'>
                     Create subtask
                   </button>
-                  <button className='px-4 py-2 font-semibold text-sm bg-slate-800 text-gray-100 rounded-lg shadow-sm'>
+                  <buttonm className='px-4 py-2 font-semibold text-sm bg-slate-800 text-gray-100 rounded-lg shadow-sm'>
                     Link issue
-                  </button>
+                  </buttonm>
                   <button className='px-4 py-2 font-semibold text-sm bg-slate-800 text-gray-100 rounded-lg shadow-sm'>
                     ...
                   </button>
@@ -48,7 +48,21 @@ const IndexPage = () => {
                 {/* continuo */}
 
                 <div className='flex flex-col gap-2 grow p-2 bg-slate-900 text-sm'>
-                  <div className='teste'>AAA</div>
+                  <div className='teste'>Description</div>
+                  <textarea
+                    name=''
+                    id=''
+                    cols='10'
+                    rows='4'
+                    className='bg-gray-900 border-2 border-slate-800 p-2 text-neutral-300'
+                    placeholder='write something oh burro...'
+                  ></textarea>
+                </div>
+
+                {/* continuo */}
+
+                <div className='flex flex-col gap-2 grow p-2 bg-slate-900 text-sm'>
+                  <div className='teste'>Activity</div>
                 </div>
               </div>
               <div className='flex-auto w-4/12 border border-slate-800 '>
