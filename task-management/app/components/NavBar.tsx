@@ -1,5 +1,4 @@
-import { randomUUID } from 'crypto';
-import { signOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -138,8 +137,9 @@ const NavBar = ({ user = '' }) => {
                       className='block px-4 py-2 text-sm text-gray-700'
                       role='menuitem'
                       id='user-menu-item-2'
+                      onClick={() => signOut()}
                     >
-                      Sign out
+                      Sign Out
                     </a>
                   </div>
                 </div>
@@ -237,9 +237,7 @@ const NavBar = ({ user = '' }) => {
                 <div className='text-base font-medium leading-none text-white'>
                   {user}
                 </div>
-                <div className='text-sm font-medium leading-none text-gray-400'>
-                  tom@example.com
-                </div>
+                <div className='text-sm font-medium leading-none text-gray-400'></div>
               </div>
               <button
                 type='button'
@@ -275,12 +273,12 @@ const NavBar = ({ user = '' }) => {
               >
                 Settings
               </a>
-              <a
-                href='#'
+              <button
                 className='block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
+                onClick={() => signOut()}
               >
-                Sign out
-              </a>
+                signOut
+              </button>
             </div>
           </div>
         </div>
