@@ -52,13 +52,22 @@ const NavBar = ({ user = '' }) => {
           <div className='flex h-16 items-center justify-between'>
             <div className='flex items-center'>
               <div className='flex-shrink-0'>
-                <Image
-                  width={80}
-                  height={80}
-                  className='h-8 w-8'
-                  src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
-                  alt='Your Company'
-                />
+                <svg
+                  width='100%'
+                  height='100%'
+                  viewBox='-10.5 -9.45 21 18.9'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='text-sm mr-0 w-10 h-10 text-link  flex origin-center transition-all ease-in-out'
+                  style={{ color: '#0074a6' }}
+                >
+                  <circle cx='0' cy='0' r='2' fill='currentColor'></circle>
+                  <g stroke='currentColor' stroke-width='1' fill='none'>
+                    <ellipse rx='10' ry='4.5'></ellipse>
+                    <ellipse rx='10' ry='4.5' transform='rotate(60)'></ellipse>
+                    <ellipse rx='10' ry='4.5' transform='rotate(120)'></ellipse>
+                  </g>
+                </svg>
               </div>
               <div className='hidden md:block'>
                 <div className='ml-10 flex items-baseline space-x-4'>
