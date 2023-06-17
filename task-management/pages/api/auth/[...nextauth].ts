@@ -1,11 +1,11 @@
 import { NextApiHandler } from 'next';
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Email from 'next-auth/providers/email';
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -17,8 +17,9 @@ const smtpUser = process.env.SMTP_USER!;
 const smtpPassword = process.env.SMTP_PASSWORD!;
 const smtpFrom = process.env.SMTP_FROM!;
 
-export default NextAuth({
-  session: { strategy: "database" },
+
+export const authOptions: NextAuthOptions = {
+  session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -75,14 +76,40 @@ export default NextAuth({
   ],
   callbacks: {
      async jwt({token,account,profile}) {
-      console.log('token, account,profile :>> ', token, account,profile);
-      if (account) {
-        token.accessToken = account.access_token
-        token.name = profile?.name
-      }
+      const user = await prisma.user.findFirst({
+        where:{
+          email:token.email
+        },
+        include: {
+          roles: {
+            include: {
+              role: {
+                include: {
+                  permissions: {
+                    include: {
+                      permission: true
+                    }
+                  }
+                }
+              }
+            },
+          }
+        }
+      });
+
+      token.roles = user?.roles;
       return token;
+    },
+    session({session, token}) {
+      if(session.user) {
+        session.user.roles = token.roles as Role[]
+      }
+      return session
     }
   },
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET!,
-});
+}
+
+export default NextAuth(authOptions)
+;
