@@ -12,9 +12,9 @@ const initialState = {
   currentTask: {},
   error: ''
 }
-const TasksContext = createContext()
+const TasksContext = createContext(initialState)
 
-function reducer(state, action) {
+function reducer(state: any, action: any) {
   switch (action.type) {
     case 'loading':
       return { ...state, isLoading: true }
