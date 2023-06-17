@@ -15,6 +15,8 @@ const prisma = new PrismaClient({});
         user_id: 'clixgih8o0000vqpeo50k38i3'
       }
     });
-    res.json(task);
+    return res.status(201).json(task);
   }
+
+  return res.status(404);
 }   
