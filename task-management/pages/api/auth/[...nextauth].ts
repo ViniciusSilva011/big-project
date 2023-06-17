@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Email from 'next-auth/providers/email';
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -17,7 +17,8 @@ const smtpUser = process.env.SMTP_USER!;
 const smtpPassword = process.env.SMTP_PASSWORD!;
 const smtpFrom = process.env.SMTP_FROM!;
 
-export default NextAuth({
+
+export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
@@ -98,8 +99,14 @@ export default NextAuth({
 
       token.roles = user?.roles;
       return token;
+    },
+    session({session, token}) {
+      return {...session, roles: token.roles}
     }
   },
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET!,
-});
+}
+
+export default NextAuth(authOptions)
+;
