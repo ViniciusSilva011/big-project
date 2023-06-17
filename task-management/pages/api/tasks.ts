@@ -8,8 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 const prisma = new PrismaClient({});
 
 const session = await getServerSession(req, res, authOptions)
-if(session)
-  console.log('session.user.roles[0].permissions :>> ', session.user.roles[0]);
+console.log('session: ', session)
+if(!session) return res.status(401).send('Unauthorized.');
 if (req.method === 'GET'){
     const tasks = await prisma.task.findMany();
     return res.json({tasks})
@@ -27,5 +27,5 @@ if (req.method === 'GET'){
     return res.status(201).json({task});
   }
 
-  return res.status(404);
+  return res.status(404).send('Unauthorized.b');
 }   

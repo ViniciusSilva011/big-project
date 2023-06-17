@@ -57,7 +57,7 @@ function taskReducer(state: State, action: Action) {
 function TasksProvider({ children }: {
   children: React.ReactNode
 }) {
-  const [taskState, dispatch] = useReducer(
+  const [state, dispatch] = useReducer(
     taskReducer,
     initialState
   )
@@ -65,17 +65,13 @@ function TasksProvider({ children }: {
   useEffect(() => {
     async function fetchTasks() {
       dispatch({ type: 'loading' })
-      console.log('taskState.isLoading:', taskState.isLoading)
       try {
         const response = await fetch(`/api/tasks`)
         const tasks = (await response.json()).tasks as Task[]
-        console.log('tasks:', tasks)
-        console.log('taskState.isLoading:', taskState.isLoading)
         dispatch({ type: 'tasks/loaded', tasks })
-        console.log('taskState.isLoading:', taskState.isLoading)
 
       } catch (e) {
-        console.log('error: ', e)
+        console.error('error: ', e)
         dispatch({
           type: 'rejected',
           error: 'There was an error loading tasks'
@@ -86,7 +82,7 @@ function TasksProvider({ children }: {
   }, [])
 
   return (
-    <TasksContext.Provider value={taskState}>
+    <TasksContext.Provider value={state}>
       {children}
     </TasksContext.Provider>
   )

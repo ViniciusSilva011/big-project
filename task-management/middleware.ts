@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 export default withAuth(
     // `withAuth` augments your `Request` with the user's token.
     function middleware(req,res) {
-      console.log(req.nextauth.token)
+      console.log('req.nextauth.token: ', req.nextauth.token)
     },
     {
       callbacks: {
