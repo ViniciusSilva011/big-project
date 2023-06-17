@@ -5,7 +5,7 @@ import Email from 'next-auth/providers/email';
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -101,7 +101,10 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     session({session, token}) {
-      return {...session, roles: token.roles}
+      if(session.user) {
+        session.user.roles = token.roles as Role[]
+      }
+      return session
     }
   },
   adapter: PrismaAdapter(prisma),
