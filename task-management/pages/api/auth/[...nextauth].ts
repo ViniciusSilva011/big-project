@@ -18,7 +18,7 @@ const smtpPassword = process.env.SMTP_PASSWORD!;
 const smtpFrom = process.env.SMTP_FROM!;
 
 export default NextAuth({
-  session: { strategy: "database" },
+  session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -75,11 +75,28 @@ export default NextAuth({
   ],
   callbacks: {
      async jwt({token,account,profile}) {
-      console.log('token, account,profile :>> ', token, account,profile);
-      if (account) {
-        token.accessToken = account.access_token
-        token.name = profile?.name
-      }
+      const user = await prisma.user.findFirst({
+        where:{
+          email:token.email
+        },
+        include: {
+          roles: {
+            include: {
+              role: {
+                include: {
+                  permissions: {
+                    include: {
+                      permission: true
+                    }
+                  }
+                }
+              }
+            },
+          }
+        }
+      });
+
+      token.roles = user?.roles;
       return token;
     }
   },
