@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import { createContext, useContext, useEffect, useReducer } from 'react'
-=======
 import React, {
   createContext,
   useContext,
@@ -8,7 +5,6 @@ import React, {
   useReducer,
   useState
 } from 'react'
->>>>>>> refs/remotes/origin/main
 
 interface Task {
   id: number
@@ -32,63 +28,50 @@ interface Action {
 const initialState = {
   tasks: [],
   isLoading: false,
-  currentTask: null,
+  currentTask: {},
   error: ''
 }
 
 const TasksContext = createContext()
 
-function taskReducer(state: State, action: Action) {
+function reducer(state: State, action: Action) {
   switch (action.type) {
     case 'loading':
       return { ...state, isLoading: true }
 
     case 'tasks/loaded':
-      return { ...state, isLoading: false, tasks: action.tasks! }
+      return { ...state, isLoading: false, tasks: action.payload }
 
     case 'rejected':
       return {
         ...state,
         isLoading: false,
-        error: action.error!
+        error: action.payload!
       }
 
     default:
-      throw new Error('Unknown action type: ' + action.type)
+      throw new Error('Unknown action type')
   }
 }
 
-function TasksProvider({ children }: {
-  children: React.ReactNode
-}) {
-  const [state, dispatch] = useReducer(
-    taskReducer,
+function TasksProvider({ children }: { children: React.ReactNode }) {
+  const [{ tasks, isLoading, currentTask, error }, dispatch] = useReducer(
+    reducer,
     initialState
   )
 
   useEffect(() => {
     async function fetchTasks() {
       dispatch({ type: 'loading' })
-<<<<<<< HEAD
 
       try {
         const response = await fetch(`/api/tasks`)
-        const tasks = await response.json()
+        const { tasks } = await response.json()
         dispatch({ type: 'tasks/loaded', payload: tasks })
       } catch {
-        console.log()
-=======
-      try {
-        const response = await fetch(`/api/tasks`)
-        const tasks = (await response.json()).tasks as Task[]
-        dispatch({ type: 'tasks/loaded', tasks })
-
-      } catch (e) {
-        console.error('error: ', e)
->>>>>>> refs/remotes/origin/main
         dispatch({
           type: 'rejected',
-          error: 'There was an error loading tasks'
+          payload: 'There was an error loading tasks'
         })
       }
     }
@@ -96,7 +79,7 @@ function TasksProvider({ children }: {
   }, [])
 
   return (
-    <TasksContext.Provider value={state}>
+    <TasksContext.Provider value={{ tasks, isLoading, currentTask, error }}>
       {children}
     </TasksContext.Provider>
   )
@@ -105,14 +88,8 @@ function TasksProvider({ children }: {
 function useTasks() {
   const context = useContext(TasksContext)
   if (context === undefined)
-<<<<<<< HEAD
-    throw new Error('TasksContext was used outside ok TasksProvider')
-
-  return context
-=======
     throw new Error('TasksContext was used outside ok Tasks Provider')
-  return context;
->>>>>>> refs/remotes/origin/main
+  return context
 }
 
-export { TasksProvider, useTasks, TasksContext }
+export { TasksProvider, useTasks }
