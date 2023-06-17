@@ -52,8 +52,8 @@ const IndexPage = () => {
                   <textarea
                     name=""
                     id=""
-                    cols="10"
-                    rows="4"
+                    cols={10}
+                    rows={4}
                     className="bg-gray-900 border-2 border-slate-800 p-2 text-neutral-300"
                     placeholder="write something oh burro..."
                   ></textarea>
