@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState
-} from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 
 interface Task {
   id: number
@@ -42,6 +36,14 @@ function reducer(state: State, action: Action) {
     case 'tasks/loaded':
       return { ...state, isLoading: false, tasks: action.payload }
 
+    // TODO: provisorio ate usar callback
+    case 'tasks/deleted':
+      return {
+        ...state,
+        isLoading: false,
+        tasks: state.tasks.filter(task => task.id !== action.payload)
+      }
+
     case 'rejected':
       return {
         ...state,
@@ -78,8 +80,28 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     fetchTasks()
   }, [])
 
+  async function deleteTask(id: string) {
+    dispatch({ type: 'loading' })
+
+    try {
+      //TODO: when api is ok
+      // await fetch(`/api/tasks/${id}`, {
+      //   method: 'DELETE'
+      // })
+
+      dispatch({ type: 'tasks/deleted', payload: id })
+    } catch {
+      dispatch({
+        type: 'rejected',
+        payload: 'There was an error deleting the city...'
+      })
+    }
+  }
+
   return (
-    <TasksContext.Provider value={{ tasks, isLoading, currentTask, error }}>
+    <TasksContext.Provider
+      value={{ tasks, isLoading, currentTask, error, deleteTask }}
+    >
       {children}
     </TasksContext.Provider>
   )

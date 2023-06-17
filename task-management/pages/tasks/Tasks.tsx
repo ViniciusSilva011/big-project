@@ -2,7 +2,8 @@ import { useTasks } from '@/app/contexts/TasksContext'
 import Loading from '../Loading'
 
 export default function Tasks() {
-  const { tasks, isLoading } = useTasks()
+  const { tasks, isLoading, deleteTask } = useTasks()
+
   return (
     <>
       <div className="container mx-auto p-4">
@@ -17,7 +18,13 @@ export default function Tasks() {
                   <span className="flex-grow text-white">
                     {task.id} - {task.name}
                   </span>
-                  <button className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300">
+                  <button
+                    className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300"
+                    onClick={e => {
+                      e.preventDefault()
+                      deleteTask(task.id)
+                    }}
+                  >
                     Delete
                   </button>
                 </li>
