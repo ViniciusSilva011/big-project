@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useContext,
   useEffect,
@@ -6,52 +6,79 @@ import {
   useState
 } from 'react'
 
+interface Task {
+  id: number
+  name: string
+  description: string
+}
+
+interface State {
+  tasks: Task[]
+  isLoading: boolean
+  currentTask: Task | null
+  error: string
+}
+
+interface Action {
+  type: 'loading' | 'tasks/loaded' | 'rejected'
+  tasks?: Task[]
+  error?: string
+}
+
 const initialState = {
   tasks: [],
   isLoading: false,
-  currentTask: {},
+  currentTask: null,
   error: ''
-}
+} as State
+
 const TasksContext = createContext(initialState)
 
-function reducer(state: any, action: any) {
+function taskReducer(state: State, action: Action) {
   switch (action.type) {
     case 'loading':
       return { ...state, isLoading: true }
 
     case 'tasks/loaded':
-      return { ...state, isLoading: false, tasks: action.payload }
+      return { ...state, isLoading: false, tasks: action.tasks! }
 
     case 'rejected':
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: action.error!
       }
 
     default:
-      throw new Error('Unknown action type')
+      throw new Error('Unknown action type: ' + action.type)
   }
 }
 
-function TasksProvider({ children }: any) {
-  const [{ tasks, isLoading, currentTask, error }, dispatch] = useReducer(
-    reducer,
+function TasksProvider({ children }: {
+  children: React.ReactNode
+}) {
+  const [taskState, dispatch] = useReducer(
+    taskReducer,
     initialState
   )
 
   useEffect(() => {
     async function fetchTasks() {
-      dispatch({ type: 'Loading' })
-
+      dispatch({ type: 'loading' })
+      console.log('taskState.isLoading:', taskState.isLoading)
       try {
-        const response = await fetch(`/tasks`)
-        const tasks = await response.json()
-        dispatch({ type: 'tasks/loaded', payload: tasks })
-      } catch {
+        const response = await fetch(`/api/tasks`)
+        const tasks = (await response.json()).tasks as Task[]
+        console.log('tasks:', tasks)
+        console.log('taskState.isLoading:', taskState.isLoading)
+        dispatch({ type: 'tasks/loaded', tasks })
+        console.log('taskState.isLoading:', taskState.isLoading)
+
+      } catch (e) {
+        console.log('error: ', e)
         dispatch({
           type: 'rejected',
-          payload: 'There was an error loading tasks'
+          error: 'There was an error loading tasks'
         })
       }
     }
@@ -59,7 +86,7 @@ function TasksProvider({ children }: any) {
   }, [])
 
   return (
-    <TasksContext.Provider value={{ tasks, isLoading, currentTask, error }}>
+    <TasksContext.Provider value={taskState}>
       {children}
     </TasksContext.Provider>
   )
@@ -69,6 +96,7 @@ function useTasks() {
   const context = useContext(TasksContext)
   if (context === undefined)
     throw new Error('TasksContext was used outside ok Tasks Provider')
+  return context;
 }
 
-export { TasksProvider, useTasks }
+export { TasksProvider, useTasks, TasksContext }
