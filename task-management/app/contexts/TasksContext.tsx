@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState
-} from 'react'
+import { createContext, useContext, useEffect, useReducer } from 'react'
 
 const initialState = {
   tasks: [],
@@ -12,7 +6,8 @@ const initialState = {
   currentTask: {},
   error: ''
 }
-const TasksContext = createContext(initialState)
+
+const TasksContext = createContext()
 
 function reducer(state: any, action: any) {
   switch (action.type) {
@@ -42,13 +37,14 @@ function TasksProvider({ children }: any) {
 
   useEffect(() => {
     async function fetchTasks() {
-      dispatch({ type: 'Loading' })
+      dispatch({ type: 'loading' })
 
       try {
-        const response = await fetch(`/tasks`)
+        const response = await fetch(`/api/tasks`)
         const tasks = await response.json()
         dispatch({ type: 'tasks/loaded', payload: tasks })
       } catch {
+        console.log()
         dispatch({
           type: 'rejected',
           payload: 'There was an error loading tasks'
@@ -68,7 +64,9 @@ function TasksProvider({ children }: any) {
 function useTasks() {
   const context = useContext(TasksContext)
   if (context === undefined)
-    throw new Error('TasksContext was used outside ok Tasks Provider')
+    throw new Error('TasksContext was used outside ok TasksProvider')
+
+  return context
 }
 
 export { TasksProvider, useTasks }

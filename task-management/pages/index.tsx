@@ -5,13 +5,16 @@ import Header from '@/app/components/Header'
 import Loading from './Loading'
 import NavBar from '@/app/components/NavBar'
 import Login from './auth/Login'
+import { useTasks } from '@/app/contexts/TasksContext'
 
 const IndexPage = () => {
   const { status, data: session } = useSession()
+  const { tasks, isLoading } = useTasks()
 
   if (status === 'loading') {
     return <Loading />
   }
+
   if (session) {
     const userLoggedName = session?.user?.name ?? ''
     return (
@@ -57,6 +60,15 @@ const IndexPage = () => {
                     className="bg-gray-900 border-2 border-slate-800 p-2 text-neutral-300"
                     placeholder="write something oh burro..."
                   ></textarea>
+                  {/* provisory tasks */}
+                  {isLoading && <Loading />}
+                  {tasks &&
+                    tasks.map((task: any) => (
+                      <div className="" key={task.id}>
+                        <title>{task.name}</title>
+                        <p>{task.description}</p>
+                      </div>
+                    ))}
                 </div>
 
                 {/* continuo */}
