@@ -1,4 +1,3 @@
-import { TasksProvider } from '@/app/contexts/TasksContext'
 import Tasks from './Tasks'
 import '../globals.css'
 

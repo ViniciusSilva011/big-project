@@ -1,4 +1,4 @@
-import { TasksProvider, useTasks } from '@/app/contexts/TasksContext'
+import { useTasks } from '@/app/contexts/TasksContext'
 import Loading from '../Loading'
 
 export default function Tasks() {
