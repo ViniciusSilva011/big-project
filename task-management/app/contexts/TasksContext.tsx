@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer
+} from 'react'
 
 interface Task {
   id: number
@@ -98,13 +104,17 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  return (
-    <TasksContext.Provider
-      value={{ tasks, isLoading, currentTask, error, deleteTask }}
-    >
-      {children}
-    </TasksContext.Provider>
-  )
+  const value = useMemo(() => {
+    return {
+      tasks,
+      isLoading,
+      currentTask,
+      error,
+      deleteTask
+    }
+  }, [tasks, isLoading, currentTask, error])
+
+  return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
 }
 
 function useTasks() {

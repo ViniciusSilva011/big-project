@@ -9,10 +9,12 @@ export default function Tasks() {
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Task List</h1>
         <ul className="bg-slate-800 divide-y divide-gray-900">
-          {isLoading && <Loading />}
+          {!tasks && isLoading && <Loading />}
           {tasks &&
             tasks.map((task: any) => {
-              return (
+              return isLoading ? (
+                <Loading />
+              ) : (
                 <li key={task.id} className="flex items-center p-4">
                   <input type="checkbox" className="mr-2" />
                   <span className="flex-grow text-white">
