@@ -9,7 +9,10 @@ const NavBar = ({ user = '' }) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        name: `task name ${crypto.randomUUID()}`,
+        description: `task description ${crypto.randomUUID()}`
+      })
     })
       .then(response => response.json())
       .then(result => {
