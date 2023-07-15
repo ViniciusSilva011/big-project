@@ -43,7 +43,7 @@ model User {
     name          String?
     email         String?   @unique
     emailVerified DateTime?
-    image         String?
+    image         String?   @default("/default-avatar.jpg")
     accounts      Account[]
     sessions      Session[]
 
