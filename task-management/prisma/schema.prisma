@@ -73,18 +73,21 @@ model Permission {
 }
 
 model Task {
-    id          Int      @id @default(autoincrement())
-    name        String
-    description String
-    user_id     String
-    created_at  DateTime @default(now())
-    updated_at  DateTime @default(now())
+    id               Int      @id @default(autoincrement())
+    name             String
+    description      String
+    user_id          String
+    task_priority_id Int      @default(1)
+    created_at       DateTime @default(now())
+    updated_at       DateTime @default(now())
 
-    users TaskUser[]
+    users TaskUser[] //* ASSIGNEES
 
-    createdBy User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    createdBy User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    priority  TaskPriority @relation(fields: [task_priority_id], references: [id], onDelete: Cascade)
 
     @@index([user_id], map: "tasks_user_id_fkey")
+    @@index([task_priority_id], map: "task_task_priority_id_fkey")
     @@map("tasks")
 }
 
@@ -118,23 +121,26 @@ model TaskUser {
     task_id Int
     user_id String
 
+    time_total     DateTime
+    time_spent     DateTime
+    time_remaining DateTime
+
     user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
     role Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
 
-    @@index([user_id, task_id], map: "task_user_user_id_fkey")
+    @@index([user_id, task_id], map: "task_user_user_id_task_id_fkey")
     @@map("task_user")
 }
 
-// model TaskPriority {
-//     task_user_id Int
+model TaskPriority {
+    id          Int    @id @default(autoincrement())
+    name        String
+    description String
 
-//     user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-//     role Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
+    Task Task[]
 
-//     @@id([task_id, user_id])
-//     @@index([user_id], map: "task_user_user_id_fkey")
-//     @@map("task_priorities")
-// }
+    @@map("task_priorities")
+}
 
 model VerificationToken {
     identifier String
