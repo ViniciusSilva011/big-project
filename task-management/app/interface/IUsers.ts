@@ -6,7 +6,7 @@ export default interface IUser {
     name: string;
     email: string;
     emailVerified: string;
-    image: string;
+    avatar: string;
     roles: IRoles[];
     createdAt: string;
 }

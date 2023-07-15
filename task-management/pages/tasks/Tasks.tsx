@@ -1,6 +1,7 @@
 import { useTasks } from '@/app/contexts/TasksContext'
 import Loading from '../Loading'
 import Link from 'next/link'
+import Show from '@/app/components/users/Show'
 
 export default function Tasks() {
   const { tasks, isLoading, deleteTask } = useTasks()
@@ -23,11 +24,10 @@ export default function Tasks() {
                       {task.id} - {task.name}
                     </Link>
                   </span>
-                  <span>@rreport</span>
-                  <span>@created by</span>
-                  <span>@reporter</span>
-                  <span>created at</span>
-                  <span>updated at</span>
+                  <Show name={'Marco Rodrigues'} avatar={''} />
+                  <Show name={task?.reporter?.name || ''} avatar={task?.reporter?.avatar || ''}  />
+                  <span>{task.createdAt}</span>
+                  <span>{task.updatedAt}</span>
                   <button
                     className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300"
                     onClick={e => {

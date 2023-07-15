@@ -19,8 +19,6 @@ interface State {
   error: string
 }
 
-
-
 const initialState = {
   tasks: [],
   isLoading: false,
@@ -28,7 +26,7 @@ const initialState = {
   error: ''
 }
 
-const TasksContext = createContext()
+const TasksContext = createContext();
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
