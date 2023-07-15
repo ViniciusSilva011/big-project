@@ -30,7 +30,7 @@ const initialState = {
 
 const TasksContext = createContext()
 
-function reducer(state: State, action:Action) {
+function reducer(state: State, action: Action) {
   switch (action.type) {
     case 'loading':
       return { ...state, isLoading: true }
@@ -46,21 +46,14 @@ function reducer(state: State, action:Action) {
         tasks: state.tasks.filter(task => task.id !== action.payload)
       }
 
-      case "city/created":
-        return {
-          ...state,
-          isLoading: false,
-          cities: [...state.cities, action.payload],
-          currentCity: action.payload,
-        };
-  
-      case "city/deleted":
-        return {
-          ...state,
-          isLoading: false,
-          cities: state.cities.filter((city) => city.id !== action.payload),
-          currentCity: {},
-        };
+    case "city/created":
+      return {
+        ...state,
+        isLoading: false,
+        cities: [...state.tasks, action.payload],
+        currentCity: action.payload,
+      };
+
 
     case 'rejected':
       return {
@@ -102,10 +95,10 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'loading' })
 
     try {
-      //TODO: when api is ok
-      // await fetch(`/api/tasks/${id}`, {
-      //   method: 'DELETE'
-      // })
+
+      await fetch(`/api/tasks/${id}`, {
+        method: 'DELETE'
+      })
 
       dispatch({ type: 'tasks/deleted', payload: id })
     } catch {
@@ -117,16 +110,41 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
 
   }
 
+  async function createTask(newTask) {
+    dispatch({ type: "loading" });
+
+    try {
+      const res = await fetch(`api/tasks`, {
+        method: "POST",
+        body: JSON.stringify(newTask),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+
+      dispatch({ type: "task/created", payload: data });
+    } catch {
+      dispatch({
+        type: "rejected",
+        payload: "There was an error creating the task...",
+      });
+    }
+  }
+
+
+
   const value = useMemo(() => {
     return {
       tasks,
       isLoading,
       currentTask,
       error,
-      deleteTask
+      deleteTask,
+      createTask
     }
   }, [tasks, isLoading, currentTask, error])
-  
+
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
 }
 
