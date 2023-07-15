@@ -113,7 +113,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
       deleteTask
     }
   }, [tasks, isLoading, currentTask, error])
-
+  
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
 }
 
