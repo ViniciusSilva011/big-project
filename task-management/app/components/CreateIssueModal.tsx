@@ -61,6 +61,20 @@ export default function CreateIssueModal({ closeModal, isOpen }: { closeModal: (
                                                     removed. This action cannot be undone.
                                                 </p>
                                             </div>
+
+                                            <div className="">
+                                                <form className='flex flex-col gap-1'>
+
+                                                    <label htmlFor='message'>Teste Vini</label>
+
+
+                                                    <input autoComplete='off' type="text" name='message' placeholder='write a name' id='message' className="bg-slate-700 invalid:border-red-500 
+                                                    placeholder-shown:border-gray-700 placeholder:text-slate-500 placeholder:text-sm text-slate-400 py-2 px-3 focus:outline-none focus:border-gren-600 
+                                                    ring ring-slate-600 rounded focus:ring-slate-500 " />
+
+                                                </form>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
