@@ -23,7 +23,6 @@ const IndexPage = () => {
     const userLoggedName = session?.user?.name ?? ''
     return (
       <div className="m-3">
-        <NavBar user={userLoggedName} />
         <main className="min-h-screen mt-8">
           <header className="bg-slate-800 shadow">
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
