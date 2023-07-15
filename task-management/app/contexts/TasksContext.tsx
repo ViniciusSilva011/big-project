@@ -19,11 +19,7 @@ interface State {
   error: string
 }
 
-interface Action {
-  type: 'loading' | 'tasks/loaded' | 'rejected'
-  tasks?: Task[]
-  error?: string
-}
+
 
 const initialState = {
   tasks: [],
@@ -34,7 +30,7 @@ const initialState = {
 
 const TasksContext = createContext()
 
-function reducer(state: State, action: Action) {
+function reducer(state: State, action:Action) {
   switch (action.type) {
     case 'loading':
       return { ...state, isLoading: true }
@@ -49,6 +45,22 @@ function reducer(state: State, action: Action) {
         isLoading: false,
         tasks: state.tasks.filter(task => task.id !== action.payload)
       }
+
+      case "city/created":
+        return {
+          ...state,
+          isLoading: false,
+          cities: [...state.cities, action.payload],
+          currentCity: action.payload,
+        };
+  
+      case "city/deleted":
+        return {
+          ...state,
+          isLoading: false,
+          cities: state.cities.filter((city) => city.id !== action.payload),
+          currentCity: {},
+        };
 
     case 'rejected':
       return {
@@ -102,6 +114,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
         payload: 'There was an error deleting the city...'
       })
     }
+
   }
 
   const value = useMemo(() => {
@@ -113,7 +126,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
       deleteTask
     }
   }, [tasks, isLoading, currentTask, error])
-
+  
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
 }
 
