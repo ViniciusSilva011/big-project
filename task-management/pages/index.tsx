@@ -9,6 +9,7 @@ import CreateIssueModal from '@/app/components/CreateIssueModal'
 import Login from './auth/Login'
 import { useTasks } from '@/app/contexts/TasksContext'
 import { useState } from 'react'
+import Show from '@/app/components/users/Show'
 
 const IndexPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,25 +103,11 @@ const IndexPage = () => {
                 <div className="flex flex-col gap-2 grow p-2 bg-slate-900 text-sm">
                   <div className="flex grow items-center">
                     <div className="w-5/12 text-sm">Assignee</div>
-                    <span className="flex items-center justify-center gap-2">
-                      <img
-                        src="http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1472099645785-5658abf4ff4e%3Fixlib%3Drb-1.2.1%26ixid%3DeyJhcHBfaWQiOjEyMDd9%26auto%3Dformat%26fit%3Dfacearea%26facepad%3D2%26w%3D256%26h%3D256%26q%3D80&w=96&q=75"
-                        alt=""
-                        className="h-6 w-6 rounded-full"
-                      />
-                      Marco Rodrigues
-                    </span>
+                    <Show name={tasks[0]?.reporter?.name || ''} avatar={tasks[0]?.reporter?.avatar}/>
                   </div>
                   <div className="flex grow items-center">
                     <div className="w-5/12  text-sm">Reporter</div>
-                    <span className="flex items-center justify-center gap-2">
-                      <img
-                        src="http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1472099645785-5658abf4ff4e%3Fixlib%3Drb-1.2.1%26ixid%3DeyJhcHBfaWQiOjEyMDd9%26auto%3Dformat%26fit%3Dfacearea%26facepad%3D2%26w%3D256%26h%3D256%26q%3D80&w=96&q=75"
-                        alt=""
-                        className="h-6 w-6 rounded-full"
-                      />
-                      Vinicius Silva
-                    </span>
+                    <Show name={tasks[1]?.reporter?.name || ''} avatar={tasks[1]?.reporter?.avatar}/>
                   </div>
                   <div className="flex grow items-center">
                     <div className="w-5/12  text-sm">Labels</div>
