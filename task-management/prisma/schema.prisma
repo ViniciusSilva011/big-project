@@ -73,12 +73,14 @@ model Permission {
 }
 
 model Task {
-    id          Int    @id @default(autoincrement())
+    id          Int      @id @default(autoincrement())
     name        String
     description String
+    user_id     String
+    created_at  DateTime @default(now())
+    updated_at  DateTime @default(now())
 
-    users   TaskUser[]
-    user_id String
+    users TaskUser[]
 
     createdBy User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
