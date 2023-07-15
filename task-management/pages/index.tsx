@@ -4,10 +4,14 @@ import './globals.css'
 import Header from '@/app/components/Header'
 import Loading from './Loading'
 import NavBar from '@/app/components/NavBar'
+import CreateIssueModal from '@/app/components/CreateIssueModal'
+
 import Login from './auth/Login'
 import { useTasks } from '@/app/contexts/TasksContext'
+import { useState } from 'react'
 
 const IndexPage = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { status, data: session } = useSession()
   const { tasks, isLoading } = useTasks()
 
@@ -60,6 +64,10 @@ const IndexPage = () => {
                     className="bg-gray-900 border-2 border-slate-800 p-2 text-neutral-300"
                     placeholder="write something oh burro..."
                   ></textarea>
+                  <CreateIssueModal isOpen={isOpen} closeModal={() => setIsOpen(false)}></CreateIssueModal>
+                  <button onClick={() => setIsOpen(true)} className="px-4 py-2 font-semibold text-sm bg-slate-800 text-gray-100 rounded-lg shadow-sm">
+                    Create
+                  </button>
                   {/* provisory tasks */}
                   {isLoading && <Loading />}
                   {tasks &&
