@@ -89,40 +89,52 @@ model Task {
 }
 
 model RoleUser {
+    id      Int    @id @default(autoincrement())
     role_id Int
     user_id String
 
     user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
     role Role @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
-    @@id([role_id, user_id])
-    @@index([user_id], map: "role_user_user_id_fkey")
+    @@index([user_id, role_id], map: "role_user_user_id_fkey")
     @@map("role_user")
 }
 
 model PermissionRole {
+    id Int @id @default(autoincrement())
+
     permission_id Int
     role_id       Int
 
     permission Permission @relation(fields: [permission_id], references: [id], onDelete: Cascade)
     role       Role       @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
-    @@id([permission_id, role_id])
-    @@index([role_id], map: "permission_role_role_id_fkey")
+    @@index([role_id, permission_id], map: "permission_role_role_id_fkey")
     @@map("permission_role")
 }
 
 model TaskUser {
+    id      Int    @id @default(autoincrement())
     task_id Int
     user_id String
 
     user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
     role Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
 
-    @@id([task_id, user_id])
-    @@index([user_id], map: "task_user_user_id_fkey")
+    @@index([user_id, task_id], map: "task_user_user_id_fkey")
     @@map("task_user")
 }
+
+// model TaskPriority {
+//     task_user_id Int
+
+//     user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+//     role Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
+
+//     @@id([task_id, user_id])
+//     @@index([user_id], map: "task_user_user_id_fkey")
+//     @@map("task_priorities")
+// }
 
 model VerificationToken {
     identifier String
