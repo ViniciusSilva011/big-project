@@ -33,6 +33,7 @@ export default function Tasks() {
                   <Show name={task?.reporter?.name || ''} avatar={task?.reporter?.avatar || ''}  />
                   <span>{formatDate(task.createdAt)}</span>
                   <span>{formatDate(task.updatedAt)}</span>
+                  <span>{task.priority.name}</span>
                   <button
                     className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300"
                     onClick={e => {

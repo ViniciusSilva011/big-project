@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 const Task =  ({
   params,
 
@@ -8,8 +10,14 @@ const Task =  ({
 })=>{
 
 
-    console.log('PARAMS: ', params)
-    return ( `TAS ID ${params}`);
+
+    
+    
+    const router = useRouter();
+    
+    // Get the query parameter from the URL
+    const { id } = router.query;
+    return ( `TAS ID ${id}`);
 }
 
 export default Task;
