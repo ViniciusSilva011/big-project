@@ -1,9 +1,9 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 import './globals.css'
-import Header from '@/app/components/Header'
+import Header from '@/app/components/menu/Header'
 import Loading from './Loading'
-import NavBar from '@/app/components/NavBar'
+import NavBar from '@/app/components/menu/NavBar'
 import CreateIssueModal from '@/app/components/CreateIssueModal'
 
 import Login from './auth/Login'
