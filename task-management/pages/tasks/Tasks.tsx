@@ -1,5 +1,8 @@
 import { useTasks } from '@/app/contexts/TasksContext'
 import Loading from '../Loading'
+import Link from 'next/link'
+import Show from '@/app/components/users/Show'
+import { formatDate } from '@/utils/helpers'
 
 export default function Tasks() {
   const { tasks, isLoading, deleteTask } = useTasks()
@@ -15,11 +18,21 @@ export default function Tasks() {
               return isLoading ? (
                 <Loading />
               ) : (
-                <li key={task.id} className="flex items-center p-4">
-                  <input type="checkbox" className="mr-2" />
-                  <span className="flex-grow text-white">
-                    {task.id} - {task.name}
+                <li key={task.id} className="flex gap-10 items-center p-4 hover:bg-slate-700 text-slate-400">
+                  {/* <input type="checkbox" className="mr-2" /> */}
+                  <span className="flex-grow ">
+                    <Link href={`/tasks/${task.id}`}>
+                        {task.name}
+                    </Link>
                   </span>
+
+
+
+
+                  {/* TODO: do assignees */}
+                  <Show name={task?.reporter?.name || ''} avatar={task?.reporter?.avatar || ''}  />
+                  <span>{formatDate(task.createdAt)}</span>
+                  <span>{formatDate(task.updatedAt)}</span>
                   <button
                     className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300"
                     onClick={e => {
