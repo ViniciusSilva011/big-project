@@ -10,8 +10,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const session = await getServerSession(req, res, authOptions)
   if (!session) return res.status(401).send('Unauthorized.');
   if (req.method === 'GET') {
-    const tasks = await prisma.task.findMany();
-    return res.json({ tasks })
+    let tasks = await prisma.task.findMany({
+      include: {
+        users: {
+          include: {
+            user: true
+          }
+        },
+        createdBy: true
+      }
+    });
+
+    const fTasks = tasks.map(task => {
+
+      return ({
+        id: task.id,
+        name: task.name,
+        description: task.description,
+        assignees: task.users.map(e => ({ id: e.user_id, name: e.user.name, avatar: e.user.image })),
+        reporter: { id: task.createdBy.id, name: task.createdBy.name, avatar: task.createdBy.image },
+        createdAt: task.created_at,
+        updatedAt: task.updated_at
+      })
+    })
+    return res.json({ tasks: fTasks })
   } else if (req.method === 'POST') {
     if (!req.body.name || !req.body.description)
       return res.status(400).send('name or description is missing');
