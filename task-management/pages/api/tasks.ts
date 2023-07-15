@@ -27,8 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         id: task.id,
         name: task.name,
         description: task.description,
-        assignees: task.users.map(e => ({ id: e.user_id, name: e.user.name })),
-        reporter: { id: task.createdBy.id, name: task.createdBy.name },
+        assignees: task.users.map(e => ({ id: e.user_id, name: e.user.name, avatar: e.user.image })),
+        reporter: { id: task.createdBy.id, name: task.createdBy.name, avatar: task.createdBy.image },
         created_at: task.created_at,
         updated_at: task.updated_at
       })
