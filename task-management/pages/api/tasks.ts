@@ -3,10 +3,9 @@ import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from './auth/[...nextauth]';
 
+const prisma = new PrismaClient({});
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-  const prisma = new PrismaClient({});
-
   const session = await getServerSession(req, res, authOptions)
   if (!session) return res.status(401).send('Unauthorized.');
   if (req.method === 'GET') {
@@ -23,7 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const fTasks = tasks.map(task => {
-
       return ({
         id: task.id,
         name: task.name,
