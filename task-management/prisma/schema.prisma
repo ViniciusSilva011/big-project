@@ -121,9 +121,9 @@ model TaskUser {
     task_id Int
     user_id String
 
-    time_total     DateTime
-    time_spent     DateTime
-    time_remaining DateTime
+    time_total     Int
+    time_spent     Int
+    time_remaining Int
 
     user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
     role Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
