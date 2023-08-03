@@ -126,7 +126,7 @@ model TaskUser {
     time_remaining Int
 
     user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-    role Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
+    task Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
 
     @@index([user_id, task_id], map: "task_user_user_id_task_id_fkey")
     @@map("task_user")
