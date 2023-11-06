@@ -70,22 +70,22 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     reducer,
     initialState
   )
+  async function fetchTasks() {
+    dispatch({ type: 'loading' })
 
-  useEffect(() => {
-    async function fetchTasks() {
-      dispatch({ type: 'loading' })
-
-      try {
-        const response = await fetch(`/api/tasks`)
-        const { tasks } = await response.json()
-        dispatch({ type: 'tasks/loaded', payload: tasks })
-      } catch {
-        dispatch({
-          type: 'rejected',
-          payload: 'There was an error loading tasks'
-        })
-      }
+    try {
+      const response = await fetch(`/api/tasks`)
+      const { tasks } = await response.json()
+      dispatch({ type: 'tasks/loaded', payload: tasks })
+    } catch {
+      dispatch({
+        type: 'rejected',
+        payload: 'There was an error loading tasks'
+      })
     }
+  }
+  useEffect(() => {
+
     fetchTasks()
   }, [])
 
@@ -139,7 +139,8 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
       currentTask,
       error,
       deleteTask,
-      createTask
+      createTask,
+      fetchTasks
     }
   }, [tasks, isLoading, currentTask, error])
 
@@ -147,7 +148,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
 }
 
 function useTasks() {
-  const context = useContext(TasksContext)
+  const context = useContext(TasksContext) as { fetchTasks: () => Promise<void> }
   if (context === undefined)
     throw new Error('TasksContext was used outside ok Tasks Provider')
   return context

@@ -1,27 +1,16 @@
 import { signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
+import InsertTaskButton from '../tasks/InsertTaskButton'
 
 const NavBar = ({ user = '' }) => {
-  function insertTasks() {
-    fetch('/api/tasks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: `task name ${crypto.randomUUID()}`,
-        description: `task description ${crypto.randomUUID()}`
-      })
-    })
-      .then(response => response.json())
-      .then(result => {
-        console.log('Success:', result)
-      })
-      .catch(error => {
-        console.error('Error:', error)
-      })
-  }
+  const pathName = usePathname() as string;
+  const hasIssueButton = pathName.includes('/tasks')
+  useEffect(() => {
+    console.log(pathName)
+  }, []);
 
   const menus = [
     { title: 'Home', link: '/' },
@@ -47,6 +36,12 @@ const NavBar = ({ user = '' }) => {
       </Link>
     )
   })
+  const issueButton = () => {
+    if (hasIssueButton)
+      return <div><InsertTaskButton /></div>
+    else return null;
+  }
+
 
   return (
     <>
@@ -75,6 +70,7 @@ const NavBar = ({ user = '' }) => {
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                   {renderMenu}
+                  {issueButton()}
                 </div>
               </div>
             </div>
@@ -294,7 +290,6 @@ const NavBar = ({ user = '' }) => {
             </div>
           </div>
         </div>
-        <button onClick={insertTasks}>insert taskskk</button>
       </nav>
     </>
   )

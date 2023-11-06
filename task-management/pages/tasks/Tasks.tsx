@@ -4,12 +4,17 @@ import Link from 'next/link'
 import Show from '@/app/components/users/Show'
 import { formatDate } from '@/utils/helpers'
 
+import RandomTasks from '@/app/components/tasks/RandomTasks'
+import { useEffect, useState } from 'react'
+
 export default function Tasks() {
-  const { tasks, isLoading, deleteTask } = useTasks()
+  const { tasks, isLoading, deleteTask, fetchTasks } = useTasks()
 
   return (
     <>
+
       <div className="container mx-auto p-4">
+        <RandomTasks></RandomTasks>
         <h1 className="text-2xl font-bold mb-4">Task List</h1>
         <ul className="bg-slate-800 divide-y divide-gray-900">
           {!tasks && isLoading && <Loading />}
@@ -22,7 +27,7 @@ export default function Tasks() {
                   {/* <input type="checkbox" className="mr-2" /> */}
                   <span className="flex-grow ">
                     <Link href={`/tasks/${task.id}`}>
-                        {task.name}
+                      {task.name}
                     </Link>
                   </span>
 
@@ -30,7 +35,7 @@ export default function Tasks() {
 
 
                   {/* TODO: do assignees */}
-                  <Show name={task?.reporter?.name || ''} avatar={task?.reporter?.avatar || ''}  />
+                  <Show name={task?.reporter?.name || ''} avatar={task?.reporter?.avatar || ''} />
                   <span>{formatDate(task.createdAt)}</span>
                   <span>{formatDate(task.updatedAt)}</span>
                   <span>{task.priority.name}</span>
