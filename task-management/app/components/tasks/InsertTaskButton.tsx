@@ -6,8 +6,8 @@ export default function InsertTaskButton() {
     const [isOpen, setIsOpen] = useState(false);
     const { fetchTasks } = useTasks()
     async function closeModal() {
-        await fetchTasks();
         setIsOpen(false);
+        await fetchTasks();
     }
     return (
         <>
