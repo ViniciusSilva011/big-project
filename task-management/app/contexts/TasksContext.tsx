@@ -147,8 +147,15 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
 }
 
+type Context = {
+  fetchTasks: () => Promise<void>,
+  deleteTask: (id: string) => Promise<void>,
+  isLoading: boolean,
+  tasks: Task[]
+}
+
 function useTasks() {
-  const context = useContext(TasksContext) as { fetchTasks: () => Promise<void> }
+  const context = useContext(TasksContext) as Context
   if (context === undefined)
     throw new Error('TasksContext was used outside ok Tasks Provider')
   return context
