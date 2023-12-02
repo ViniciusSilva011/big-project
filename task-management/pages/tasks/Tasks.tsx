@@ -1,11 +1,11 @@
 import { useTasks } from '@/app/contexts/TasksContext'
-import Loading from '../Loading'
 import Link from 'next/link'
 import Show from '@/app/components/users/Show'
 import { formatDate } from '@/utils/helpers'
 
 import RandomTasks from '@/app/components/tasks/RandomTasks'
 import { useEffect, useState } from 'react'
+import Loading from '@/app/components/ui/Loading'
 
 export default function Tasks() {
   const { tasks, isLoading, deleteTask, fetchTasks } = useTasks()
@@ -17,13 +17,11 @@ export default function Tasks() {
         <RandomTasks></RandomTasks>
         <h1 className="text-2xl font-bold mb-4">Task List</h1>
         <ul className="bg-slate-800 divide-y divide-gray-900">
-          {!tasks && isLoading && <Loading />}
+          {isLoading && <Loading />}
           {tasks &&
             tasks.map((task: any) => {
-              return isLoading ? (
-                <Loading />
-              ) : (
-                <li key={task.id} className="flex gap-10 items-center p-4 hover:bg-slate-700 text-slate-400">
+              return (
+                <li key={task.name} className="flex gap-10 items-center p-4 hover:bg-slate-700 text-slate-400">
                   {/* <input type="checkbox" className="mr-2" /> */}
                   <span className="flex-grow ">
                     <Link href={`/tasks/${task.id}`}>

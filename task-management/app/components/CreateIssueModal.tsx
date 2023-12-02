@@ -1,13 +1,16 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ArchiveBoxIcon } from '@heroicons/react/24/outline'
+import Loading from './ui/Loading';
 
 export default function CreateIssueModal({ closeModal, isOpen }: { closeModal: () => void, isOpen: boolean }) {
     const cancelButtonRef = useRef(null)
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     async function submit() {
+        setIsLoading(true);
         const response = await fetch('/api/tasks', {
             method: 'POST',
             headers: {
@@ -18,6 +21,7 @@ export default function CreateIssueModal({ closeModal, isOpen }: { closeModal: (
                 description: description
             })
         });
+        setIsLoading(false);
         console.log('response.json()', response.json());
         closeModal();
     }
@@ -49,6 +53,7 @@ export default function CreateIssueModal({ closeModal, isOpen }: { closeModal: (
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                {isLoading && <Loading />}
                                 <div className="bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                     <div className="sm:flex sm:items-start">
                                         <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-black  -100 sm:mx-0 sm:h-10 sm:w-10">
