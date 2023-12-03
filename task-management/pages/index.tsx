@@ -4,6 +4,8 @@ import './globals.css'
 import Loading from './Loading'
 
 import Login from './auth/Login'
+import RootLayout from './layout'
+import { ReactNode } from 'react'
 
 const IndexPage = () => {
   const { status, data: session } = useSession()
@@ -14,7 +16,9 @@ const IndexPage = () => {
 
   if (session) {
     return (
-      <div>Main Page</div>
+      <RootLayout>
+        <div>Main Page</div>
+      </RootLayout>
     )
   } else {
     signIn();
@@ -23,4 +27,12 @@ const IndexPage = () => {
     )
   }
 }
-export default IndexPage
+export default IndexPage;
+
+IndexPage.getLayout = (page: ReactNode) => {
+  return (
+    <>
+      {page}
+    </>
+  )
+}
