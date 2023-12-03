@@ -20,6 +20,7 @@ const IndexPage = () => {
       </RootLayout>
     )
   } else {
+    signIn();
     return (
       <div>
         <button onClick={() => signIn()}>Sign in</button>
