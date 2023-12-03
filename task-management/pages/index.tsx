@@ -4,7 +4,6 @@ import './globals.css'
 import Loading from './Loading'
 
 import Login from './auth/Login'
-import RootLayout from './layout'
 
 const IndexPage = () => {
   const { status, data: session } = useSession()
@@ -15,17 +14,12 @@ const IndexPage = () => {
 
   if (session) {
     return (
-      <RootLayout>
-        <div>Main Page</div>
-      </RootLayout>
+      <div>Main Page</div>
     )
   } else {
     signIn();
     return (
-      <div>
-        <button onClick={() => signIn()}>Sign in</button>
-        <Login />
-      </div>
+      <Loading />
     )
   }
 }

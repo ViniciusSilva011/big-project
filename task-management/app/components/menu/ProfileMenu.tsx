@@ -7,7 +7,7 @@ export default function ProfileMenu() {
     const { data: session } = useSession();
     const user = session?.user?.name ?? '';
     //TODO: Fix the type later
-    const image = (session?.user as unknown as { image: string }).image;
+    const image = (session?.user as unknown as { image: string })?.image;
     return (
         <div className="relative ml-3">
 

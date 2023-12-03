@@ -3,6 +3,7 @@ import { useTasks } from "@/app/contexts/TasksContext";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "../Loading";
+import Show from "@/app/components/users/Show";
 
 const Task = ({
   params,

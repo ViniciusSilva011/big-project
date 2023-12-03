@@ -1,10 +1,6 @@
-import RootLayout from "../layout";
-
 const Profile = () => {
   return (
-    <RootLayout>
-      'Profile pages';
-    </RootLayout>
+    'Profile pages'
   )
 };
 

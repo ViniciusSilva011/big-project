@@ -2,6 +2,7 @@ import Header from '@/app/components/menu/Header'
 import { TasksProvider } from '@/app/contexts/TasksContext'
 import { SessionProvider } from 'next-auth/react'
 import { AppProps } from 'next/app'
+import RootLayout from './layout'
 
 export default function App({
   Component,
@@ -10,7 +11,9 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <TasksProvider>
-        <Component {...pageProps} />
+        <RootLayout>
+          <Component {...pageProps} />
+        </RootLayout>
       </TasksProvider>
     </SessionProvider>
   )
