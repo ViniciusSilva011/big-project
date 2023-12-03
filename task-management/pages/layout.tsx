@@ -8,7 +8,7 @@ export default function RootLayout({
     return (
         <>
             <Header />
-            <div>
+            <div className="min-h-screen">
                 {children}
             </div>
         </>
