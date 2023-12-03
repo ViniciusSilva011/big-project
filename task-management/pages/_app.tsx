@@ -10,7 +10,6 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <TasksProvider>
-        <Header />
         <Component {...pageProps} />
       </TasksProvider>
     </SessionProvider>

@@ -1,5 +1,11 @@
+import RootLayout from "../layout";
+
 const Profile = () => {
-  return 'Profile pages';
+  return (
+    <RootLayout>
+      'Profile pages';
+    </RootLayout>
+  )
 };
 
 export default Profile;
